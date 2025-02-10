@@ -144,116 +144,75 @@ async function getTests() {
   console.log(pc.bold(`🎭 Playwright-cli-select `));
   console.log("\n");
 
-  if (
-    !process.env.TEST_TITLES &&
-    !process.env.TEST_SPECS &&
-    !process.env.TEST_TAGS
-  ) {
-    const specAndTestPrompt = await select({
-      message: "Choose to filter by specs, specific test titles or tags: ",
-      multiple: true,
-      clearInputWhenSelected: true,
-      selectFocusedOnSubmit: process.env.SUBMIT_FOCUSED,
-      canToggleAll: true,
-      options: [
-        {
-          name: "Specs",
-          value: "Specs",
-        },
-        {
-          name: "Test titles",
-          value: "Test titles",
-        },
-        {
-          name: "Tags",
-          value: "Tags",
-        },
-      ],
-      required: true,
-    });
-    if (specAndTestPrompt.includes("Specs")) {
-      process.env.TEST_SPECS = true;
-    }
-    if (specAndTestPrompt.includes("Test titles")) {
-      process.env.TEST_TITLES = true;
-    }
-    if (specAndTestPrompt.includes("Tags")) {
-      process.env.TEST_TAGS = true;
-    }
-  }
-
-  if (process.env.TEST_SPECS) {
-    if (fileArr.length > 0) {
-      function specsChoices() {
-        let arr = [];
-        fileArr.forEach((element) => {
-          const spec = {
-            name: element,
-            value: element,
-          };
-          arr.push(spec);
-        });
-        return arr;
+  try {
+    if (
+      !process.env.TEST_TITLES &&
+      !process.env.TEST_SPECS &&
+      !process.env.TEST_TAGS
+    ) {
+      const specAndTestPrompt = await select({
+        message: "Choose to filter by specs, specific test titles or tags: ",
+        multiple: true,
+        clearInputWhenSelected: true,
+        selectFocusedOnSubmit: process.env.SUBMIT_FOCUSED,
+        canToggleAll: true,
+        options: [
+          {
+            name: "Specs",
+            value: "Specs",
+          },
+          {
+            name: "Test titles",
+            value: "Test titles",
+          },
+          {
+            name: "Tags",
+            value: "Tags",
+          },
+        ],
+        required: true,
+      });
+      if (specAndTestPrompt.includes("Specs")) {
+        process.env.TEST_SPECS = true;
+      }
+      if (specAndTestPrompt.includes("Test titles")) {
+        process.env.TEST_TITLES = true;
+      }
+      if (specAndTestPrompt.includes("Tags")) {
+        process.env.TEST_TAGS = true;
       }
     }
 
-    const specSelections = await select({
-      message: "Select specs to run:",
-      multiple: true,
-      required: true,
-      clearInputWhenSelected: true,
-      selectFocusedOnSubmit: process.env.SUBMIT_FOCUSED,
-      canToggleAll: true,
-      options: (input = "") => {
-        const specs = specsChoices();
-
-        const fuse = new Fuse(specs, {
-          keys: ["value"],
-        });
-
-        if (!input) return specs;
-        if (fuse) {
-          const result = fuse.search(input).map(({ item }) => item);
-          return result;
+    if (process.env.TEST_SPECS) {
+      if (fileArr.length > 0) {
+        function specsChoices() {
+          let arr = [];
+          fileArr.forEach((element) => {
+            const spec = {
+              name: element,
+              value: element,
+            };
+            arr.push(spec);
+          });
+          return arr;
         }
-        return [];
-      },
-    });
-    specSelections.forEach((spec) => {
-      grepString += `${spec}|`;
-    });
-  }
+      }
 
-  if (process.env.TEST_TITLES) {
-    const tests = hasDuplicateArrays(baseArr, uniqueTestArray, false);
-
-    if (tests.length > 0) {
-      const testChoices = () => {
-        let arr = [];
-        tests.forEach((element) => {
-          const choices = {
-            name: element.flat().join(" › "),
-            value: element.flat().join(" "),
-          };
-          arr.push(choices);
-        });
-        return arr;
-      };
-      const selectedTests = await select({
-        message: "Select tests to run:",
+      const specSelections = await select({
+        message: "Select specs to run:",
         multiple: true,
+        required: true,
         clearInputWhenSelected: true,
         selectFocusedOnSubmit: process.env.SUBMIT_FOCUSED,
-        required: true,
+        canToggleAll: true,
         options: (input = "") => {
-          const tests = testChoices();
+          const specs = specsChoices();
 
-          const fuse = new Fuse(tests, {
-            keys: ["name"],
-            ignoreLocation: true,
+          const fuse = new Fuse(specs, {
+            keys: ["value"],
           });
 
-          if (!input) return tests;
+          if (!input) return specs;
           if (fuse) {
             const result = fuse.search(input).map(({ item }) => item);
             return result;
@@ -261,68 +220,124 @@ async function getTests() {
           return [];
         },
       });
-      selectedTests.forEach((test) => {
-        grepString += `${test}|`;
+      specSelections.forEach((spec) => {
+        grepString += `${spec}|`;
       });
     }
-  }
 
-  if (process.env.TEST_TAGS) {
-    const tags = hasDuplicateArrays(flatTagArr, uniqueTagArray, true);
+    if (process.env.TEST_TITLES) {
+      const tests = hasDuplicateArrays(baseArr, uniqueTestArray, false);
 
-    if (tags.length > 0) {
-      // sort the tags presented
-      tags.sort();
-
-      const separateStringJson = () => {
-        let arr = [];
-        tags.forEach((element) => {
-          const choices = {
-            name: element,
-            value: element,
-          };
-          arr.push(choices);
-        });
-        return arr;
-      };
-
-      const selectedTags = await select({
-        message: "Select tags to run:",
-        multiple: true,
-        clearInputWhenSelected: true,
-        selectFocusedOnSubmit: process.env.SUBMIT_FOCUSED,
-        required: true,
-        options: (input = "") => {
-          const tags = separateStringJson();
-
-          const fuse = new Fuse(tags, {
-            keys: ["name"],
+      if (tests.length > 0) {
+        const testChoices = () => {
+          let arr = [];
+          tests.forEach((element) => {
+            const choices = {
+              name: element.flat().join(" › "),
+              value: element.flat().join(" "),
+            };
+            arr.push(choices);
           });
+          return arr;
+        };
+        const selectedTests = await select({
+          message: "Select tests to run:",
+          multiple: true,
+          clearInputWhenSelected: true,
+          selectFocusedOnSubmit: process.env.SUBMIT_FOCUSED,
+          required: true,
+          options: (input = "") => {
+            const tests = testChoices();
 
-          if (!input) return tags;
-          if (fuse) {
-            const result = fuse.search(input).map(({ item }) => item);
-            return result;
-          }
-          return [];
-        },
-      });
-      selectedTags.forEach((tag) => {
-        grepString += `@${tag}|`;
-      });
+            const fuse = new Fuse(tests, {
+              keys: ["name"],
+              ignoreLocation: true,
+            });
+
+            if (!input) return tests;
+            if (fuse) {
+              const result = fuse.search(input).map(({ item }) => item);
+              return result;
+            }
+            return [];
+          },
+        });
+        selectedTests.forEach((test) => {
+          grepString += `${test}|`;
+        });
+      }
+    }
+
+    if (process.env.TEST_TAGS) {
+      const tags = hasDuplicateArrays(flatTagArr, uniqueTagArray, true);
+
+      if (tags.length > 0) {
+        // sort the tags presented
+        tags.sort();
+
+        const separateStringJson = () => {
+          let arr = [];
+          tags.forEach((element) => {
+            const choices = {
+              name: element,
+              value: element,
+            };
+            arr.push(choices);
+          });
+          return arr;
+        };
+
+        const selectedTags = await select({
+          message: "Select tags to run:",
+          multiple: true,
+          clearInputWhenSelected: true,
+          selectFocusedOnSubmit: process.env.SUBMIT_FOCUSED,
+          required: true,
+          options: (input = "") => {
+            const tags = separateStringJson();
+
+            const fuse = new Fuse(tags, {
+              keys: ["name"],
+            });
+
+            if (!input) return tags;
+            if (fuse) {
+              const result = fuse.search(input).map(({ item }) => item);
+              return result;
+            }
+            return [];
+          },
+        });
+        selectedTags.forEach((tag) => {
+          grepString += `@${tag}|`;
+        });
+      }
+    }
+  } catch (e) {
+    // if user closes prompt send a error message instead of inquirer.js error
+    if (e.message.includes("User force closed the prompt")) {
+      console.log("\n");
+      console.log(pc.redBright(pc.bold("The prompt was closed")));
+      process.exit();
+    } else {
+      console.log(e);
+      process.exit();
     }
   }
 
+  // remove the last "|" from the grep string
   const newGrepString = grepString.slice(0, -1);
-
+  // collect all arguments passed to command
   let args = process.argv.slice(2);
   // remove the 'run'
   args.shift();
   args.push("--grep");
   args.push(`"${newGrepString}"`);
+  console.log();
+  console.log("Arguments: ");
+  console.log();
   console.log(args);
   console.log();
-  console.log(`npx playwright test --grep ${newGrepString}`);
 
   spawn("npx playwright test", args, {
     shell: true,

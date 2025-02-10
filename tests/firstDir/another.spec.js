@@ -20,9 +20,9 @@ test.describe("New tests @new", () => {
 
       // Expects page to have a heading with the name of Installation.
       await expect(
-        page.getByRole("heading", { name: "Installation" }),
+        page.getByRole("heading", { name: "Installation" })
       ).toBeVisible();
-    },
+    }
   );
   test.describe("Nested suite", () => {
     test("nested test", { tag: ["@nested"] }, async ({ page }) => {
@@ -33,7 +33,7 @@ test.describe("New tests @new", () => {
 
       // Expects page to have a heading with the name of Installation.
       await expect(
-        page.getByRole("heading", { name: "Installation" }),
+        page.getByRole("heading", { name: "Installation" })
       ).toBeVisible();
     });
     test.describe("Deeply nested suite", () => {
@@ -48,9 +48,9 @@ test.describe("New tests @new", () => {
 
           // Expects page to have a heading with the name of Installation.
           await expect(
-            page.getByRole("heading", { name: "Installation" }),
+            page.getByRole("heading", { name: "Installation" })
           ).toBeVisible();
-        },
+        }
       );
     });
   });

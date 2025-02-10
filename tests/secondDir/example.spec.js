@@ -17,7 +17,7 @@ test.describe("All tests", () => {
 
     // Expects page to have a heading with the name of Installation.
     await expect(
-      page.getByRole("heading", { name: "Installation" }),
+      page.getByRole("heading", { name: "Installation" })
     ).toBeVisible();
   });
   test.describe("Nested suite", () => {
@@ -29,7 +29,7 @@ test.describe("All tests", () => {
 
       // Expects page to have a heading with the name of Installation.
       await expect(
-        page.getByRole("heading", { name: "Installation" }),
+        page.getByRole("heading", { name: "Installation" })
       ).toBeVisible();
     });
   });
@@ -42,6 +42,6 @@ test("outside test", { tag: ["@smoke", "@sanity"] }, async ({ page }) => {
 
   // Expects page to have a heading with the name of Installation.
   await expect(
-    page.getByRole("heading", { name: "Installation" }),
+    page.getByRole("heading", { name: "Installation" })
   ).toBeVisible();
 });
