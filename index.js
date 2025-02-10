@@ -41,9 +41,25 @@ async function getTests() {
     getTestCommand += ` -c ${process.argv[index + 1]}`;
   }
 
+  const arg = process.argv;
+
+  for (let i = 0; i < arg.length; i++) {
+    if (arg[i].includes("--config=")) {
+      const [_, value] = arg[i].split("=");
+      getTestCommand += ` --config ${value}`;
+    }
+  }
+
   if (process.argv.includes("--config")) {
     const index = process.argv.indexOf("--config");
     getTestCommand += ` --config ${process.argv[index + 1]}`;
+  }
+
+  for (let i = 0; i < arg.length; i++) {
+    if (arg[i].includes("--project=")) {
+      const [_, value] = arg[i].split("=");
+      getTestCommand += ` --project ${value}`;
+    }
   }
 
   if (process.argv.includes("--project")) {
@@ -89,6 +105,8 @@ async function getTests() {
     findAndRemoveArgv("--json-data");
   }
 
+  console.log(getTestCommand);
+
   if (!process.env.JSON_TEST_DATA) {
     process.env.JSON_TEST_DATA = execSync(getTestCommand, {
       encoding: "utf-8",
@@ -114,14 +132,16 @@ async function getTests() {
       baseArr.push(newarr);
     });
 
-    suite.suites.forEach((nextSuite) => {
-      let newarr = [suite.file, nextSuite.title];
-      baseArr.push(newarr);
-      tagArr.push(nextSuite.tags);
-      baseTagArr.push(tagArr);
+    if (suite.suites) {
+      suite.suites.forEach((nextSuite) => {
+        let newarr = [suite.file, nextSuite.title];
+        baseArr.push(newarr);
+        tagArr.push(nextSuite.tags);
+        baseTagArr.push(tagArr);
 
-      iterateObject(nextSuite, baseArr, newarr, tagArr, baseTagArr);
-    });
+        iterateObject(nextSuite, baseArr, newarr, tagArr, baseTagArr);
+      });
+    }
   });
   const flatTagArr = baseTagArr.flat();
   const uniqueTestArray = [];
