@@ -50,6 +50,14 @@ async function getTests() {
     getTestCommand += ` --project ${process.argv[index + 1]}`;
   }
 
+  if (process.argv.includes("--last-failed")) {
+    getTestCommand += ` --last-failed`;
+  }
+
+  if (process.argv.includes("--only-changed")) {
+    getTestCommand += ` --only-changed`;
+  }
+
   if (process.argv.includes("--submit-focused")) {
     findAndRemoveArgv("--submit-focused");
     process.env.SUBMIT_FOCUSED = true;
