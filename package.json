@@ -6,7 +6,9 @@
   "bin": {
     "playwright-cli-select": "index.js"
   },
-  "scripts": {},
+  "scripts": {
+    "jest": "jest"
+  },
   "keywords": [
     "cli",
     "playwright",
@@ -17,7 +19,9 @@
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.50.1",
-    "@types/node": "^22.13.1"
+    "@types/node": "^22.13.1",
+    "cli-testing-library": "^3.0.1",
+    "jest": "^29.7.0"
   },
   "dependencies": {
     "fuse.js": "^7.1.0",
