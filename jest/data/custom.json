@@ -1,0 +1,345 @@
+{
+  "config": {
+    "configFile": "./playwright-cli-select/playwright.dev.config.js",
+    "rootDir": "./playwright-cli-select/tests/secondDir",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "reporter": [["json"]],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 15000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "./playwright-cli-select/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "./playwright-cli-select/tests/secondDir",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "./playwright-cli-select/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "./playwright-cli-select/tests/secondDir",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "./playwright-cli-select/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "./playwright-cli-select/tests/secondDir",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.50.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "example.spec.js",
+      "file": "example.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "outside test",
+          "ok": true,
+          "tags": ["smoke", "sanity"],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "dd9b2edffe9b7501040c-cb4d89943ee10f9e78f8",
+          "file": "example.spec.js",
+          "line": 37,
+          "column": 5
+        },
+        {
+          "title": "outside test",
+          "ok": true,
+          "tags": ["smoke", "sanity"],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "dd9b2edffe9b7501040c-aae5ec8d059565ec3dd6",
+          "file": "example.spec.js",
+          "line": 37,
+          "column": 5
+        },
+        {
+          "title": "outside test",
+          "ok": true,
+          "tags": ["smoke", "sanity"],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "dd9b2edffe9b7501040c-80b105f8db79074e5598",
+          "file": "example.spec.js",
+          "line": 37,
+          "column": 5
+        }
+      ],
+      "suites": [
+        {
+          "title": "All tests",
+          "file": "example.spec.js",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "has title",
+              "ok": true,
+              "tags": ["play", "sanity"],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "dd9b2edffe9b7501040c-0cb7170db15f6992d526",
+              "file": "example.spec.js",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "get started link",
+              "ok": true,
+              "tags": ["smoke", "sanity"],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "dd9b2edffe9b7501040c-498e32afb51f55a65e0c",
+              "file": "example.spec.js",
+              "line": 12,
+              "column": 7
+            },
+            {
+              "title": "has title",
+              "ok": true,
+              "tags": ["play", "sanity"],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "dd9b2edffe9b7501040c-115d5c33362efdc980e4",
+              "file": "example.spec.js",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "get started link",
+              "ok": true,
+              "tags": ["smoke", "sanity"],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "dd9b2edffe9b7501040c-09a0a890b47a59dfd37d",
+              "file": "example.spec.js",
+              "line": 12,
+              "column": 7
+            },
+            {
+              "title": "has title",
+              "ok": true,
+              "tags": ["play", "sanity"],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "dd9b2edffe9b7501040c-46bbf05781ac06767c73",
+              "file": "example.spec.js",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "get started link",
+              "ok": true,
+              "tags": ["smoke", "sanity"],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "dd9b2edffe9b7501040c-db55b6dd23c5d03b75ee",
+              "file": "example.spec.js",
+              "line": 12,
+              "column": 7
+            }
+          ],
+          "suites": [
+            {
+              "title": "Nested suite",
+              "file": "example.spec.js",
+              "line": 23,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "nested test",
+                  "ok": true,
+                  "tags": ["nested"],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "dd9b2edffe9b7501040c-c91aaa999febb2257c98",
+                  "file": "example.spec.js",
+                  "line": 24,
+                  "column": 9
+                },
+                {
+                  "title": "nested test",
+                  "ok": true,
+                  "tags": ["nested"],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "firefox",
+                      "projectName": "firefox",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "dd9b2edffe9b7501040c-77a1701e0aa1deecff98",
+                  "file": "example.spec.js",
+                  "line": 24,
+                  "column": 9
+                },
+                {
+                  "title": "nested test",
+                  "ok": true,
+                  "tags": ["nested"],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "webkit",
+                      "projectName": "webkit",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "dd9b2edffe9b7501040c-edc383a3dead00fc5ddb",
+                  "file": "example.spec.js",
+                  "line": 24,
+                  "column": 9
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-02-10T20:01:27.301Z",
+    "duration": 7.027999999999992,
+    "expected": 0,
+    "skipped": 12,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

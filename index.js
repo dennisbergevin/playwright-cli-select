@@ -3,6 +3,7 @@
 const { execSync, spawn } = require("child_process");
 const Fuse = require("fuse.js");
 const pc = require("picocolors");
+const fs = require("fs");
 const { select } = require("inquirer-select-pro");
 
 function iterateObject(obj, baseArr, continuedArr, tagArr, baseTagArr) {
@@ -78,12 +79,24 @@ async function getTests() {
     process.env.TEST_TAGS = true;
   }
 
-  const alltests = execSync(getTestCommand, {
-    encoding: "utf-8",
-    stdio: "pipe",
-  });
+  if (process.argv.includes("--json-data-path")) {
+    const index = process.argv.indexOf("--json-data-path");
+    process.env.JSON_TEST_DATA = await fs.promises.readFile(
+      `${process.argv[index + 1]}`,
+      "utf8"
+    );
+    findAndRemoveArgv(process.argv[index + 1]);
+    findAndRemoveArgv("--json-data");
+  }
 
-  const testJSON = JSON.parse(alltests);
+  if (!process.env.JSON_TEST_DATA) {
+    process.env.JSON_TEST_DATA = execSync(getTestCommand, {
+      encoding: "utf-8",
+      stdio: "pipe",
+    });
+  }
+
+  const testJSON = JSON.parse(process.env.JSON_TEST_DATA);
   const baseArr = [];
   const baseTagArr = [];
   const tagArr = [];

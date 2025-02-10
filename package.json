@@ -7,7 +7,7 @@
     "playwright-cli-select": "index.js"
   },
   "scripts": {
-    "jest": "jest"
+    "jest": "jest --verbose ./jest"
   },
   "keywords": [
     "cli",
@@ -20,7 +20,7 @@
   "devDependencies": {
     "@playwright/test": "^1.50.1",
     "@types/node": "^22.13.1",
-    "cli-testing-library": "^3.0.1",
+    "cli-testing-library": "^2.0.2",
     "jest": "^29.7.0"
   },
   "dependencies": {
