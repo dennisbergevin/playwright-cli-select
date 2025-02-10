@@ -1,0 +1,26 @@
+{
+  "name": "playwright-cli-select",
+  "version": "1.0.0",
+  "description": "Playwright interactive cli prompts to select and run specs, tests or tags",
+  "main": "index.js",
+  "bin": {
+    "playwright-cli-select": "index.js"
+  },
+  "scripts": {},
+  "keywords": [
+    "cli",
+    "playwright",
+    "testing",
+    "tooling"
+  ],
+  "author": "Dennis Bergevin",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.50.1",
+    "@types/node": "^22.13.1"
+  },
+  "dependencies": {
+    "fuse.js": "^7.1.0",
+    "inquirer-select-pro": "^1.0.0-alpha.9"
+  }
+}
