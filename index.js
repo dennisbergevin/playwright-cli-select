@@ -102,7 +102,7 @@ async function getTests() {
       "utf8"
     );
     findAndRemoveArgv(process.argv[index + 1]);
-    findAndRemoveArgv("--json-data");
+    findAndRemoveArgv("--json-data-path");
   }
 
   if (!process.env.JSON_TEST_DATA) {
