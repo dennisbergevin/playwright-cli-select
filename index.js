@@ -106,10 +106,21 @@ async function getTests() {
   }
 
   if (!process.env.JSON_TEST_DATA) {
-    process.env.JSON_TEST_DATA = execSync(getTestCommand, {
-      encoding: "utf-8",
-      stdio: "pipe",
-    });
+    try {
+      process.env.JSON_TEST_DATA = execSync(getTestCommand, {
+        encoding: "utf-8",
+        stdio: "pipe",
+      });
+    } catch (e) {
+      if (e.stdout.includes("Error: No tests found")) {
+        console.log("\n");
+        console.log(pc.redBright(pc.bold("Error: No tests found")));
+        process.exit();
+      } else {
+        console.log(e);
+        process.exit();
+      }
+    }
   }
 
   const testJSON = JSON.parse(process.env.JSON_TEST_DATA);
@@ -279,33 +290,33 @@ async function getTests() {
           });
           return arr;
         }
+
+        const specSelections = await select({
+          message: "Select specs to run:",
+          multiple: true,
+          required: true,
+          clearInputWhenSelected: true,
+          selectFocusedOnSubmit: process.env.SUBMIT_FOCUSED,
+          canToggleAll: true,
+          options: (input = "") => {
+            const specs = specsChoices();
+
+            const fuse = new Fuse(specs, {
+              keys: ["value"],
+            });
+
+            if (!input) return specs;
+            if (fuse) {
+              const result = fuse.search(input).map(({ item }) => item);
+              return result;
+            }
+            return [];
+          },
+        });
+        specSelections.forEach((spec) => {
+          grepString += `${spec}|`;
+        });
       }
-
-      const specSelections = await select({
-        message: "Select specs to run:",
-        multiple: true,
-        required: true,
-        clearInputWhenSelected: true,
-        selectFocusedOnSubmit: process.env.SUBMIT_FOCUSED,
-        canToggleAll: true,
-        options: (input = "") => {
-          const specs = specsChoices();
-
-          const fuse = new Fuse(specs, {
-            keys: ["value"],
-          });
-
-          if (!input) return specs;
-          if (fuse) {
-            const result = fuse.search(input).map(({ item }) => item);
-            return result;
-          }
-          return [];
-        },
-      });
-      specSelections.forEach((spec) => {
-        grepString += `${spec}|`;
-      });
     }
 
     if (process.env.TEST_TITLES) {
