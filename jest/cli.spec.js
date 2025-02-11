@@ -92,6 +92,47 @@ describe("basic input prompt flows", () => {
     userEvent.keyboard("[Enter]");
     expect(await findByText("Arguments:")).toBeInTheConsole();
   });
+
+  it("--spec flag starts at spec selection", async () => {
+    const { findByText, userEvent } = await render("cd ../../../ && node", [
+      resolve(__dirname, "../index.js"),
+      ["--submit-focused"],
+      ["--json-data-path"],
+      [resolve(__dirname, "./data/default.json")],
+      ["--specs"],
+    ]);
+
+    expect(await findByText("Select specs to run")).toBeInTheConsole();
+    expect(await findByText("firstDir/another.spec.js")).toBeInTheConsole();
+  });
+
+  it("--titles flag starts at test title selection", async () => {
+    const { findByText, userEvent } = await render("cd ../../../ && node", [
+      resolve(__dirname, "../index.js"),
+      ["--submit-focused"],
+      ["--json-data-path"],
+      [resolve(__dirname, "./data/default.json")],
+      ["--titles"],
+    ]);
+
+    expect(await findByText("Select tests to run")).toBeInTheConsole();
+    expect(
+      await findByText("firstDir/another.spec.js › New tests @new")
+    ).toBeInTheConsole();
+  });
+
+  it("--tags flag starts at tag selection", async () => {
+    const { findByText, userEvent } = await render("cd ../../../ && node", [
+      resolve(__dirname, "../index.js"),
+      ["--submit-focused"],
+      ["--json-data-path"],
+      [resolve(__dirname, "./data/default.json")],
+      ["--tags"],
+    ]);
+
+    expect(await findByText("Select tags to run")).toBeInTheConsole();
+    expect(await findByText("deeply-nested")).toBeInTheConsole();
+  });
 });
 
 describe("handles prompt searching", () => {

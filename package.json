@@ -7,7 +7,7 @@
     "playwright-cli-select": "index.js"
   },
   "scripts": {
-    "jest": "jest --verbose ./jest"
+    "test": "jest ./jest --verbose"
   },
   "keywords": [
     "cli",
