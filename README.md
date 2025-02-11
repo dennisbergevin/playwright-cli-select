@@ -68,8 +68,8 @@ Any combination of `--specs`, `--titles` and/or `--tags` parameters is permitted
 You can also include more cli arguments similar to `npx playwright test`:
 
 ```bash
-# Example
-npx playwright-cli-select run --project=firefox
+npx playwright-cli-select run --project=firefox --ui
+# any selections will open in Playwright UI mode
 ```
 
 ### Keyboard controls
