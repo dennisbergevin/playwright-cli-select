@@ -18,9 +18,9 @@ Playwright interactive cli prompts to select and run specs, tests or tags.
 - [Installation](#installation)
 - [Run mode](#run-mode)
   - [Keyboard controls](#keyboard-controls)
-- [Test titles or tags](#test-titles-or-tags)
 - [Help mode](#help-mode)
 - [Submit focused](#submit-focused)
+- [Optional path to test list json](#optional-path-to-test-list-json)
 - [Using a custom playwright config file](#using-a-custom-playwright-config-file)
 - [Setting up a `npm` script](#setting-up-a-npm-script)
 - [Contributions](#contributions)
@@ -108,6 +108,18 @@ To enable this feature, pass the following flag:
 
 ```bash
 npx playwright-cli-select run --submit-focused
+```
+
+---
+
+## Optional path to test list json
+
+This package uses the `npx playwright test --list --reporter=json` command to gather information about Playwright tests.
+
+If you prefer or already house the data from this command in a file, pass the path to the file via the `--json-data-path` parameter:
+
+```bash
+npx playwright-cli-select run --json-data-path data/sample-test-list.json
 ```
 
 ---
