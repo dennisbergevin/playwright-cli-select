@@ -35,67 +35,27 @@ function findAndRemoveArgv(arg) {
 }
 
 async function getTests() {
-  let getTestCommand = "npx playwright test --list --reporter=json";
-  const arg = process.argv;
-
-  if (arg.includes("-c")) {
-    const index = process.argv.indexOf("-c");
-    getTestCommand += ` -c ${process.argv[index + 1]}`;
-  }
-
-  for (let i = 0; i < arg.length; i++) {
-    if (arg[i].includes("--config=")) {
-      const [_, value] = arg[i].split("=");
-      getTestCommand += ` --config ${value}`;
-    }
-  }
-
-  if (arg.includes("--config")) {
-    const index = process.argv.indexOf("--config");
-    getTestCommand += ` --config ${process.argv[index + 1]}`;
-  }
-
-  for (let i = 0; i < arg.length; i++) {
-    if (arg[i].includes("--project=")) {
-      const [_, value] = arg[i].split("=");
-      getTestCommand += ` --project ${value}`;
-    }
-  }
-
-  if (arg.includes("--project")) {
-    const index = process.argv.indexOf("--project");
-    getTestCommand += ` --project ${process.argv[index + 1]}`;
-  }
-
-  if (arg.includes("--last-failed")) {
-    getTestCommand += ` --last-failed`;
-  }
-
-  if (arg.includes("--only-changed")) {
-    getTestCommand += ` --only-changed`;
-  }
-
-  if (arg.includes("--submit-focused")) {
+  if (process.argv.includes("--submit-focused")) {
     findAndRemoveArgv("--submit-focused");
     process.env.SUBMIT_FOCUSED = true;
   }
 
-  if (arg.includes("--titles")) {
+  if (process.argv.includes("--titles")) {
     findAndRemoveArgv("--titles");
     process.env.TEST_TITLES = true;
   }
 
-  if (arg.includes("--specs")) {
+  if (process.argv.includes("--specs")) {
     findAndRemoveArgv("--specs");
     process.env.TEST_SPECS = true;
   }
 
-  if (arg.includes("--tags")) {
+  if (process.argv.includes("--tags")) {
     findAndRemoveArgv("--tags");
     process.env.TEST_TAGS = true;
   }
 
-  if (arg.includes("--json-data-path")) {
+  if (process.argv.includes("--json-data-path")) {
     const index = process.argv.indexOf("--json-data-path");
     process.env.JSON_TEST_DATA = await fs.promises.readFile(
       `${process.argv[index + 1]}`,
@@ -104,6 +64,14 @@ async function getTests() {
     findAndRemoveArgv(process.argv[index + 1]);
     findAndRemoveArgv("--json-data-path");
   }
+
+  // collect all arguments passed to command
+  let args = process.argv.slice(2);
+  // remove the 'run'
+  args.shift();
+
+  // add arguments to test list command
+  let getTestCommand = `npx playwright test --list --reporter=json ${args.join(" ").toString()}`;
 
   if (!process.env.JSON_TEST_DATA) {
     try {
@@ -421,10 +389,6 @@ async function getTests() {
 
   // remove the last "|" from the grep string
   const newGrepString = grepString.slice(0, -1);
-  // collect all arguments passed to command
-  let args = process.argv.slice(2);
-  // remove the 'run'
-  args.shift();
   args.push("--grep");
   args.push(`"${newGrepString}"`);
   console.log();
