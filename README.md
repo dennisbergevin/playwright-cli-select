@@ -6,7 +6,7 @@
 Playwright interactive cli prompts to select and run specs, tests or tags.
 </p>
 
-<img src="" alt="" loop=infinite>
+<img src="./assets/run-test.gif" alt="playwright-cli-select run demo" loop=infinite>
 
 ## Features
 
@@ -61,6 +61,8 @@ npx playwright-cli-select run --titles --tags
 # skips to test title selection, followed by tag selection
 ```
 
+<img src="./assets/run-flags.gif" alt="playwright-cli-select run --specs --titles --tags demo" loop=infinite>
+
 Any combination of `--specs`, `--titles` and/or `--tags` parameters is permitted.
 
 You can also include more cli arguments similar to `npx playwright test`:
@@ -94,7 +96,7 @@ To open the cli help menu, pass the `--help` flag:
 npx playwright-cli-select run --help
 ```
 
-<img src="" alt="" loop=infinite>
+<img src="./assets/run-help.gif" alt="playwright-cli-select help menu demo" loop=infinite>
 
 ---
 
