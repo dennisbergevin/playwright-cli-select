@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "fuse.js": "^7.1.0",
-    "inquirer-select-pro": "^1.0.0-alpha.9"
+    "inquirer-select-pro": "^1.0.0-alpha.9",
+    "yargs": "^17.7.2"
   }
 }

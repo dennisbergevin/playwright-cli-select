@@ -4,6 +4,7 @@ const { execSync, spawn } = require("child_process");
 const Fuse = require("fuse.js");
 const pc = require("picocolors");
 const fs = require("fs");
+const yarg = require("yargs");
 const { select } = require("inquirer-select-pro");
 
 function iterateObject(obj, baseArr, continuedArr, tagArr, baseTagArr) {
@@ -175,6 +176,58 @@ async function getTests() {
   console.log("\n");
 
   try {
+    // help menu options
+    yarg
+      .completion("--specs", false)
+      .option("specs", {
+        desc: "Skips to spec selection prompt",
+        type: "boolean",
+      })
+      .example("npx playwright-cli-select run --specs");
+
+    yarg
+      .completion("--titles", false)
+      .option("titles", {
+        desc: "Skips to test title selection prompt",
+        type: "boolean",
+      })
+      .example("npx playwright-cli-select run --titles");
+
+    yarg
+      .completion("--tags", false)
+      .option("tags", {
+        desc: "Skips to tag selection prompt",
+        type: "boolean",
+      })
+      .example("npx playwright-cli-select run --tags");
+
+    yarg
+      .completion("--json-data-path", false)
+      .option("json-data-path", {
+        desc: "Optional path of file housing output of \n`npx playwright test --list --reporter=json`",
+        type: "string",
+      })
+      .example(
+        "npx playwright-cli-select run --json-data-path data/sample-test-list.json"
+      );
+
+    yarg
+      .completion("--submit-focused", false)
+      .option("submit-focused", {
+        desc: "Selects and submits focused item using enter",
+        type: "boolean",
+      })
+      .example("npx playwright-cli-select run --submit-focused");
+
+    yarg
+      .scriptName("npx playwright-cli-select run")
+      .usage(
+        "\nInteractive cli prompts to select Playwright specs, tests or tags run\n"
+      )
+      .usage("$0 [args]")
+      .example("npx playwright-cli-select run --project=firefox")
+      .help().argv;
+
     if (
       !process.env.TEST_TITLES &&
       !process.env.TEST_SPECS &&
