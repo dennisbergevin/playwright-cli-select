@@ -35,13 +35,12 @@ function findAndRemoveArgv(arg) {
 
 async function getTests() {
   let getTestCommand = "npx playwright test --list --reporter=json";
+  const arg = process.argv;
 
-  if (process.argv.includes("-c")) {
+  if (arg.includes("-c")) {
     const index = process.argv.indexOf("-c");
     getTestCommand += ` -c ${process.argv[index + 1]}`;
   }
-
-  const arg = process.argv;
 
   for (let i = 0; i < arg.length; i++) {
     if (arg[i].includes("--config=")) {
@@ -50,7 +49,7 @@ async function getTests() {
     }
   }
 
-  if (process.argv.includes("--config")) {
+  if (arg.includes("--config")) {
     const index = process.argv.indexOf("--config");
     getTestCommand += ` --config ${process.argv[index + 1]}`;
   }
@@ -62,40 +61,40 @@ async function getTests() {
     }
   }
 
-  if (process.argv.includes("--project")) {
+  if (arg.includes("--project")) {
     const index = process.argv.indexOf("--project");
     getTestCommand += ` --project ${process.argv[index + 1]}`;
   }
 
-  if (process.argv.includes("--last-failed")) {
+  if (arg.includes("--last-failed")) {
     getTestCommand += ` --last-failed`;
   }
 
-  if (process.argv.includes("--only-changed")) {
+  if (arg.includes("--only-changed")) {
     getTestCommand += ` --only-changed`;
   }
 
-  if (process.argv.includes("--submit-focused")) {
+  if (arg.includes("--submit-focused")) {
     findAndRemoveArgv("--submit-focused");
     process.env.SUBMIT_FOCUSED = true;
   }
 
-  if (process.argv.includes("--titles")) {
+  if (arg.includes("--titles")) {
     findAndRemoveArgv("--titles");
     process.env.TEST_TITLES = true;
   }
 
-  if (process.argv.includes("--specs")) {
+  if (arg.includes("--specs")) {
     findAndRemoveArgv("--specs");
     process.env.TEST_SPECS = true;
   }
 
-  if (process.argv.includes("--tags")) {
+  if (arg.includes("--tags")) {
     findAndRemoveArgv("--tags");
     process.env.TEST_TAGS = true;
   }
 
-  if (process.argv.includes("--json-data-path")) {
+  if (arg.includes("--json-data-path")) {
     const index = process.argv.indexOf("--json-data-path");
     process.env.JSON_TEST_DATA = await fs.promises.readFile(
       `${process.argv[index + 1]}`,
@@ -104,8 +103,6 @@ async function getTests() {
     findAndRemoveArgv(process.argv[index + 1]);
     findAndRemoveArgv("--json-data");
   }
-
-  console.log(getTestCommand);
 
   if (!process.env.JSON_TEST_DATA) {
     process.env.JSON_TEST_DATA = execSync(getTestCommand, {
