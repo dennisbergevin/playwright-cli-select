@@ -1,4 +1,4 @@
- <h2 align=center>Playwright cli-select</h2>
+ <h2 align=center>🎭 Playwright cli-select</h2>
 <p align="center">
 </p>
 
