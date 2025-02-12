@@ -18,6 +18,7 @@ Playwright interactive cli prompts to select and run specs, tests or tags.
 - [Installation](#installation)
 - [Run mode](#run-mode)
   - [Keyboard controls](#keyboard-controls)
+- [UI mode](#ui-mode)
 - [Help mode](#help-mode)
 - [Submit focused](#submit-focused)
 - [Optional path to test list json](#optional-path-to-test-list-json)
