@@ -17,6 +17,7 @@ Playwright interactive cli prompts to select and run specs, tests or tags.
 
 - [Installation](#installation)
 - [Run mode](#run-mode)
+- [Command line arguments](#command-line-arguments)
 - [UI mode](#ui-mode)
   - [Keyboard controls](#keyboard-controls)
 - [Help mode](#help-mode)
@@ -60,17 +61,23 @@ npx playwright-cli-select run --tags
 
 npx playwright-cli-select run --titles --tags
 # skips to test title selection, followed by tag selection
+# Any combination of `--specs`, `--titles` and/or `--tags` parameters is permitted.
+
 ```
 
 <img src="./assets/run-flags.gif" alt="playwright-cli-select run --specs --titles --tags demo" loop=infinite>
 
-Any combination of `--specs`, `--titles` and/or `--tags` parameters is permitted.
+---
+
+## Command line arguments
 
 You can also include more cli arguments similar to `npx playwright test`:
 
 ```bash
 npx playwright-cli-select run --project firefox webkit
 ```
+
+---
 
 ## UI mode
 
@@ -84,6 +91,8 @@ npx playwright-cli-select run --ui
 npx playwright-cli-select run --titles --headed
 # Example of choosing only test titles to run headed
 ```
+
+---
 
 ### Keyboard controls
 
