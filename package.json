@@ -9,6 +9,9 @@
   "scripts": {
     "test": "jest ./jest --verbose"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "keywords": [
     "cli",
     "playwright",
@@ -27,5 +30,13 @@
     "fuse.js": "^7.1.0",
     "inquirer-select-pro": "^1.0.0-alpha.9",
     "yargs": "^17.7.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dennisbergevin/playwright-cli-select.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dennisbergevin/playwright-cli-select/issues"
+  },
+  "homepage": "https://github.com/dennisbergevin/playwright-cli-select#readme"
 }
