@@ -68,8 +68,20 @@ Any combination of `--specs`, `--titles` and/or `--tags` parameters is permitted
 You can also include more cli arguments similar to `npx playwright test`:
 
 ```bash
-npx playwright-cli-select run --project=firefox --ui
-# any selections will open in Playwright UI mode
+npx playwright-cli-select run --project firefox webkit
+```
+
+## UI mode
+
+You can append the `--ui` or `--headed` parameters to open a browser and view selected specs, test titles and/or tags:
+
+```bash
+npx playwright-cli-select run --ui
+
+# Or
+
+npx playwright-cli-select run --titles --headed
+# Example of choosing only test titles to run headed
 ```
 
 ### Keyboard controls
