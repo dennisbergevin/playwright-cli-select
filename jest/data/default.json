@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "/Users/dennisbergevin/Documents/playwright-cli-select/playwright.config.js",
-    "rootDir": "/Users/dennisbergevin/Documents/playwright-cli-select/tests",
+    "configFile": "./playwright-cli-select/playwright.config.js",
+    "rootDir": "./playwright-cli-select/tests",
     "forbidOnly": false,
     "fullyParallel": true,
     "globalSetup": null,
@@ -20,37 +20,37 @@
     "quiet": false,
     "projects": [
       {
-        "outputDir": "/Users/dennisbergevin/Documents/playwright-cli-select/test-results",
+        "outputDir": "./playwright-cli-select/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "chromium",
         "name": "chromium",
-        "testDir": "/Users/dennisbergevin/Documents/playwright-cli-select/tests",
+        "testDir": "./playwright-cli-select/tests",
         "testIgnore": [],
         "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 30000
       },
       {
-        "outputDir": "/Users/dennisbergevin/Documents/playwright-cli-select/test-results",
+        "outputDir": "./playwright-cli-select/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "firefox",
         "name": "firefox",
-        "testDir": "/Users/dennisbergevin/Documents/playwright-cli-select/tests",
+        "testDir": "./playwright-cli-select/tests",
         "testIgnore": [],
         "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 30000
       },
       {
-        "outputDir": "/Users/dennisbergevin/Documents/playwright-cli-select/test-results",
+        "outputDir": "./playwright-cli-select/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "webkit",
         "name": "webkit",
-        "testDir": "/Users/dennisbergevin/Documents/playwright-cli-select/tests",
+        "testDir": "./playwright-cli-select/tests",
         "testIgnore": [],
         "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
         "timeout": 30000
