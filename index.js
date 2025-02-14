@@ -52,6 +52,58 @@ function findAndRemoveArgv(arg) {
 }
 
 async function getTests() {
+  // help menu options
+  yarg
+    .completion("--specs", false)
+    .option("specs", {
+      desc: "Skips to spec selection prompt",
+      type: "boolean",
+    })
+    .example("npx playwright-cli-select run --specs");
+
+  yarg
+    .completion("--titles", false)
+    .option("titles", {
+      desc: "Skips to test title selection prompt",
+      type: "boolean",
+    })
+    .example("npx playwright-cli-select run --titles");
+
+  yarg
+    .completion("--tags", false)
+    .option("tags", {
+      desc: "Skips to tag selection prompt",
+      type: "boolean",
+    })
+    .example("npx playwright-cli-select run --tags");
+
+  yarg
+    .completion("--json-data-path", false)
+    .option("json-data-path", {
+      desc: "Optional path of file housing output of \n`npx playwright test --list --reporter=json`",
+      type: "string",
+    })
+    .example(
+      "npx playwright-cli-select run --json-data-path data/sample-test-list.json"
+    );
+
+  yarg
+    .completion("--submit-focused", false)
+    .option("submit-focused", {
+      desc: "Selects and submits focused item using enter",
+      type: "boolean",
+    })
+    .example("npx playwright-cli-select run --submit-focused");
+
+  yarg
+    .scriptName("npx playwright-cli-select run")
+    .usage(
+      "\nInteractive cli prompts to select Playwright specs, tests or tags run\n"
+    )
+    .usage("$0 [args]")
+    .example("npx playwright-cli-select run --project=firefox")
+    .help().argv;
+
   if (process.argv.includes("--submit-focused")) {
     findAndRemoveArgv("--submit-focused");
     process.env.SUBMIT_FOCUSED = true;
@@ -70,6 +122,11 @@ async function getTests() {
   if (process.argv.includes("--tags")) {
     findAndRemoveArgv("--tags");
     process.env.TEST_TAGS = true;
+  }
+
+  if (process.argv.includes("--ui")) {
+    findAndRemoveArgv("--ui");
+    process.env.TEST_IN_UI_MODE = "--ui";
   }
 
   if (process.argv.includes("--json-data-path")) {
@@ -197,58 +254,6 @@ async function getTests() {
   console.log("\n");
 
   try {
-    // help menu options
-    yarg
-      .completion("--specs", false)
-      .option("specs", {
-        desc: "Skips to spec selection prompt",
-        type: "boolean",
-      })
-      .example("npx playwright-cli-select run --specs");
-
-    yarg
-      .completion("--titles", false)
-      .option("titles", {
-        desc: "Skips to test title selection prompt",
-        type: "boolean",
-      })
-      .example("npx playwright-cli-select run --titles");
-
-    yarg
-      .completion("--tags", false)
-      .option("tags", {
-        desc: "Skips to tag selection prompt",
-        type: "boolean",
-      })
-      .example("npx playwright-cli-select run --tags");
-
-    yarg
-      .completion("--json-data-path", false)
-      .option("json-data-path", {
-        desc: "Optional path of file housing output of \n`npx playwright test --list --reporter=json`",
-        type: "string",
-      })
-      .example(
-        "npx playwright-cli-select run --json-data-path data/sample-test-list.json"
-      );
-
-    yarg
-      .completion("--submit-focused", false)
-      .option("submit-focused", {
-        desc: "Selects and submits focused item using enter",
-        type: "boolean",
-      })
-      .example("npx playwright-cli-select run --submit-focused");
-
-    yarg
-      .scriptName("npx playwright-cli-select run")
-      .usage(
-        "\nInteractive cli prompts to select Playwright specs, tests or tags run\n"
-      )
-      .usage("$0 [args]")
-      .example("npx playwright-cli-select run --project=firefox")
-      .help().argv;
-
     if (
       !process.env.TEST_TITLES &&
       !process.env.TEST_SPECS &&
@@ -440,6 +445,9 @@ async function getTests() {
   args.unshift(`${newGrepString}`);
   if (process.env.TEST_REPORTER_TYPE) {
     args.push(process.env.TEST_REPORTER_TYPE);
+  }
+  if (process.env.TEST_IN_UI_MODE) {
+    args.push(process.env.TEST_IN_UI_MODE);
   }
   console.log();
   console.log("Arguments: ");
