@@ -4,23 +4,42 @@ const { execSync, spawn } = require("child_process");
 const Fuse = require("fuse.js");
 const pc = require("picocolors");
 const fs = require("fs");
+const path = require("path");
+const os = require("os");
 const yarg = require("yargs");
 const { select } = require("inquirer-select-pro");
 
-function iterateObject(obj, baseArr, continuedArr, tagArr, baseTagArr) {
+function iterateObject(
+  obj,
+  baseArr,
+  continuedArr,
+  tagArr,
+  baseTagArr,
+  fileName
+) {
   if (obj.specs) {
     obj.specs.forEach((spec) => {
       let newerarr = [...continuedArr, spec.title];
+      const testObj = {
+        title: newerarr,
+        tags: spec.tags,
+        line: `${fileName}:${spec.line}`,
+      };
       tagArr.push(spec.tags);
       baseTagArr.push(tagArr);
-      baseArr.push(newerarr);
+      baseArr.push(testObj);
     });
   }
 
   if (obj.suites) {
     obj.suites.forEach((suite) => {
       let evenNewerArr = [...continuedArr, suite.title];
-      iterateObject(suite, baseArr, evenNewerArr, tagArr, baseTagArr);
+      const suiteObj = {
+        title: evenNewerArr,
+        line: `${fileName}:${suite.line}`,
+      };
+      baseArr.push(suiteObj);
+      iterateObject(suite, baseArr, evenNewerArr, tagArr, baseTagArr, fileName);
     });
   }
 }
@@ -65,10 +84,25 @@ async function getTests() {
     findAndRemoveArgv("--json-data-path");
   }
 
+  process.argv.forEach((arg, index) => {
+    if (arg.includes("--reporter=")) {
+      process.env.TEST_REPORTER_TYPE = process.argv[index];
+      findAndRemoveArgv(process.argv[index]);
+    }
+  });
+
   // collect all arguments passed to command
-  let args = process.argv.slice(2);
   // remove the 'run'
+  if (process.argv.includes("--reporter")) {
+    const index = process.argv.indexOf("--reporter");
+    process.env.TEST_REPORTER_TYPE = `--reporter ${process.argv[index + 1]}`;
+    findAndRemoveArgv(process.argv[index + 1]);
+    findAndRemoveArgv("--reporter");
+  }
+
+  let args = process.argv.slice(2);
   args.shift();
+  console.log(args);
 
   // add arguments to test list command
   let getTestCommand = `npx playwright test --list --reporter=json ${args.join(" ").toString()}`;
@@ -95,28 +129,39 @@ async function getTests() {
   const baseArr = [];
   const baseTagArr = [];
   const tagArr = [];
-  const fileArr = [];
+  let fileArr = [];
+  let newarr = [];
   let grepString = "";
 
   testJSON.suites.forEach((suite) => {
     const singleTests = suite.specs;
-    fileArr.push(suite.file);
+    const fileName = suite.file;
+    fileArr.push(fileName);
 
     singleTests.forEach((test) => {
-      let newarr = [suite.file, test.title];
+      newarr = [suite.file, test.title];
+      const testObj = {
+        title: newarr,
+        tags: test.tags,
+        line: `${suite.file}:${test.line}`,
+      };
+      baseArr.push(testObj);
       tagArr.push(test.tags);
       baseTagArr.push(tagArr);
-      baseArr.push(newarr);
     });
 
     if (suite.suites) {
       suite.suites.forEach((nextSuite) => {
-        let newarr = [suite.file, nextSuite.title];
-        baseArr.push(newarr);
+        newarr = [suite.file, nextSuite.title];
+        const suiteObj = {
+          title: newarr,
+          line: `${suite.file}:${nextSuite.line}`,
+        };
+        baseArr.push(suiteObj);
         tagArr.push(nextSuite.tags);
         baseTagArr.push(tagArr);
 
-        iterateObject(nextSuite, baseArr, newarr, tagArr, baseTagArr);
+        iterateObject(nextSuite, baseArr, newarr, tagArr, baseTagArr, fileName);
       });
     }
   });
@@ -282,21 +327,23 @@ async function getTests() {
           },
         });
         specSelections.forEach((spec) => {
-          grepString += `${spec}|`;
+          grepString += `${spec} `;
         });
       }
     }
 
     if (process.env.TEST_TITLES) {
-      const tests = hasDuplicateArrays(baseArr, uniqueTestArray, false);
+      const uniqueArray = [
+        ...new Set(baseArr.map((obj) => JSON.stringify(obj))),
+      ].map((str) => JSON.parse(str));
 
-      if (tests.length > 0) {
+      if (uniqueArray.length > 0) {
         const testChoices = () => {
           let arr = [];
-          tests.forEach((element) => {
+          uniqueArray.forEach((element) => {
             const choices = {
-              name: element.flat().join(" › "),
-              value: element.flat().join(" "),
+              name: element.title.join(" › "),
+              value: element.line,
             };
             arr.push(choices);
           });
@@ -325,29 +372,33 @@ async function getTests() {
           },
         });
         selectedTests.forEach((test) => {
-          grepString += `${test}|`;
+          grepString += `${test} `;
         });
       }
     }
 
     if (process.env.TEST_TAGS) {
       const tags = hasDuplicateArrays(flatTagArr, uniqueTagArray, true);
+      const uniqueArray = [
+        ...new Set(baseArr.map((obj) => JSON.stringify(obj))),
+      ].map((str) => JSON.parse(str));
+      const tagArr = [];
 
+      tags.forEach((tag) => {
+        const testLines = [];
+        uniqueArray.forEach((obj) => {
+          if (obj.tags?.includes(tag)) {
+            testLines.push(obj.line);
+          }
+        });
+        tagArr.push({
+          name: tag,
+          value: testLines.join(" "),
+        });
+      });
       if (tags.length > 0) {
         // sort the tags presented
-        tags.sort();
-
-        const separateStringJson = () => {
-          let arr = [];
-          tags.forEach((element) => {
-            const choices = {
-              name: element,
-              value: element,
-            };
-            arr.push(choices);
-          });
-          return arr;
-        };
+        tagArr.sort();
 
         const selectedTags = await select({
           message: "Select tags to run:",
@@ -356,7 +407,7 @@ async function getTests() {
           selectFocusedOnSubmit: process.env.SUBMIT_FOCUSED,
           required: true,
           options: (input = "") => {
-            const tags = separateStringJson();
+            const tags = tagArr;
 
             const fuse = new Fuse(tags, {
               keys: ["name"],
@@ -371,7 +422,7 @@ async function getTests() {
           },
         });
         selectedTags.forEach((tag) => {
-          grepString += `@${tag}|`;
+          grepString += `${tag} `;
         });
       }
     }
@@ -387,10 +438,10 @@ async function getTests() {
     }
   }
 
-  // remove the last "|" from the grep string
+  // remove the last " " from the grep string
   const newGrepString = grepString.slice(0, -1);
-  args.push("--grep");
-  args.push(`"${newGrepString}"`);
+  args.unshift(`${newGrepString}`);
+  args.push(process.env.TEST_REPORTER_TYPE);
   console.log();
   console.log("Arguments: ");
   console.log();
