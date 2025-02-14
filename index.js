@@ -4,8 +4,6 @@ const { execSync, spawn } = require("child_process");
 const Fuse = require("fuse.js");
 const pc = require("picocolors");
 const fs = require("fs");
-const path = require("path");
-const os = require("os");
 const yarg = require("yargs");
 const { select } = require("inquirer-select-pro");
 
@@ -102,7 +100,6 @@ async function getTests() {
 
   let args = process.argv.slice(2);
   args.shift();
-  console.log(args);
 
   // add arguments to test list command
   let getTestCommand = `npx playwright test --list --reporter=json ${args.join(" ").toString()}`;
