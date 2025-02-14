@@ -438,7 +438,9 @@ async function getTests() {
   // remove the last " " from the grep string
   const newGrepString = grepString.slice(0, -1);
   args.unshift(`${newGrepString}`);
-  args.push(process.env.TEST_REPORTER_TYPE);
+  if (process.env.TEST_REPORTER_TYPE) {
+    args.push(process.env.TEST_REPORTER_TYPE);
+  }
   console.log();
   console.log("Arguments: ");
   console.log();
