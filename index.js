@@ -7,6 +7,8 @@ const fs = require("fs");
 const yarg = require("yargs");
 const { select } = require("inquirer-select-pro");
 
+// walk the suites structure from the json reporter
+// collect file:line, suite > name and tags
 function iterateObject(
   obj,
   baseArr,
@@ -155,12 +157,16 @@ async function getTests() {
     findAndRemoveArgv("--reporter");
   }
 
+  // collect all arguments passed to npx command
   let args = process.argv.slice(2);
+  // remove 'run'
   args.shift();
 
   // add arguments to test list command
   let getTestCommand = `npx playwright test --list --reporter=json ${args.join(" ").toString()}`;
 
+  // collect test data
+  // if --json-data-path flag is not used, exec --list --reporter=json command
   if (!process.env.JSON_TEST_DATA) {
     try {
       process.env.JSON_TEST_DATA = execSync(getTestCommand, {
@@ -219,31 +225,22 @@ async function getTests() {
       });
     }
   });
-  const flatTagArr = baseTagArr.flat();
-  const uniqueTestArray = [];
-  const uniqueTagArray = [];
-  function hasDuplicateArrays(arr, newArr, isTag) {
+
+  // check for tags that are duplicate and store unique tags in array for prompt
+  function hasDuplicateArrays(arr, newArr) {
     const seen = new Set();
-    const array = isTag ? arr.flat() : arr;
+    const array = arr.flat();
     for (const subArray of array) {
-      if (isTag) {
-        const stringified = JSON.stringify(subArray);
-        if (
-          !seen.has(stringified) &&
-          stringified !== undefined &&
-          stringified !== "" &&
-          stringified !== "[]"
-        ) {
-          newArr.push(subArray);
-        }
-        seen.add(stringified);
-      } else {
-        const stringified = JSON.stringify(subArray);
-        if (!seen.has(stringified)) {
-          newArr.push(subArray);
-        }
-        seen.add(stringified);
+      const stringified = JSON.stringify(subArray);
+      if (
+        !seen.has(stringified) &&
+        stringified !== undefined &&
+        stringified !== "" &&
+        stringified !== "[]"
+      ) {
+        newArr.push(subArray);
       }
+      seen.add(stringified);
     }
     return newArr;
   }
@@ -340,6 +337,8 @@ async function getTests() {
       ].map((str) => JSON.parse(str));
 
       if (uniqueArray.length > 0) {
+        // organize suite/test titles into title prompt format
+        // value will be the file:line format while user will see suite > test format
         const testChoices = () => {
           let arr = [];
           uniqueArray.forEach((element) => {
@@ -380,12 +379,15 @@ async function getTests() {
     }
 
     if (process.env.TEST_TAGS) {
-      const tags = hasDuplicateArrays(flatTagArr, uniqueTagArray, true);
+      const flatTagArr = baseTagArr.flat();
+      const uniqueTagArray = [];
+      const tags = hasDuplicateArrays(flatTagArr, uniqueTagArray);
       const uniqueArray = [
         ...new Set(baseArr.map((obj) => JSON.stringify(obj))),
       ].map((str) => JSON.parse(str));
       const tagArr = [];
 
+      // add file:line for every test that includes a specific tag
       tags.forEach((tag) => {
         const testLines = [];
         uniqueArray.forEach((obj) => {
@@ -393,6 +395,7 @@ async function getTests() {
             testLines.push(obj.line);
           }
         });
+        // organize tags with file:line values for tag prompt
         tagArr.push({
           name: tag,
           value: testLines.join(" "),
@@ -443,9 +446,11 @@ async function getTests() {
   // remove the last " " from the grep string
   const newGrepString = grepString.slice(0, -1);
   args.unshift(`${newGrepString}`);
+  // add --reporter back to npx playwright test command if necessary
   if (process.env.TEST_REPORTER_TYPE) {
     args.push(process.env.TEST_REPORTER_TYPE);
   }
+  // add --ui back to arguments for the npx playwright test command if necessary
   if (process.env.TEST_IN_UI_MODE) {
     args.push(process.env.TEST_IN_UI_MODE);
   }
