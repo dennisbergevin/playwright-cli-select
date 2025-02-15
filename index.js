@@ -337,6 +337,8 @@ async function getTests() {
       ].map((str) => JSON.parse(str));
 
       if (uniqueArray.length > 0) {
+        // organize suite/test titles into title prompt format
+        // value will be the file:line format while user will see suite > test format
         const testChoices = () => {
           let arr = [];
           uniqueArray.forEach((element) => {
@@ -385,6 +387,7 @@ async function getTests() {
       ].map((str) => JSON.parse(str));
       const tagArr = [];
 
+      // add file:line for every test that includes a specific tag
       tags.forEach((tag) => {
         const testLines = [];
         uniqueArray.forEach((obj) => {
@@ -392,6 +395,7 @@ async function getTests() {
             testLines.push(obj.line);
           }
         });
+        // organize tags with file:line values for tag prompt
         tagArr.push({
           name: tag,
           value: testLines.join(" "),
