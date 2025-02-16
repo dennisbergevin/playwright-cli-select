@@ -130,16 +130,14 @@ Show
 
 # Await test list
 Wait+Screen /Select tests to run/
-Wait+Screen /New tests/
-Wait+Screen /outside test/
 
 Sleep 2s
 
 # Type a search in the prompt 
-Type@200ms "All tests"
+Type@200ms "Clear completed button"
 
 # Await the test list to show search result
-Wait+Screen /nested test/
+Wait+Screen /Clear completed button/
 Sleep 2s
 
 # Move down two

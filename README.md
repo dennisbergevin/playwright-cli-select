@@ -13,11 +13,17 @@ Playwright interactive cli prompts to select and run specs, tests or tags.
 - ❓ New interactive CLI prompts to select and run specs, tests or tags
 - 🎭 A new `playwright test` command to allow user to pass desired arguments
 
+## External Resources
+
+- [Dev blog: playwright-cli-select](https://dev.to/dennisbergevin/playwright-cli-select-12j)
+
 #### Table of Contents
 
 - [Installation](#installation)
 - [Run mode](#run-mode)
 - [Command line arguments](#command-line-arguments)
+  - [Using last failed](#using-last-failed)
+  - [Using only changed](#using-only-changed)
 - [UI mode](#ui-mode)
   - [Keyboard controls](#keyboard-controls)
 - [Help mode](#help-mode)
@@ -35,13 +41,19 @@ Playwright interactive cli prompts to select and run specs, tests or tags.
 
 ```sh
 npm install --save-dev playwright-cli-select
+# within your Playwright repository as dev dependency
+
+# Or
+
+npm install -g playwright-cli-select
+# global install
 ```
 
 ---
 
 ## Run mode
 
-Run the following command:
+Run the following command in your Playwright repository:
 
 ```bash
 npx playwright-cli-select run
@@ -62,7 +74,6 @@ npx playwright-cli-select run --tags
 npx playwright-cli-select run --titles --tags
 # skips to test title selection, followed by tag selection
 # Any combination of `--specs`, `--titles` and/or `--tags` parameters is permitted.
-
 ```
 
 <img src="./assets/run-flags.gif" alt="playwright-cli-select run --specs --titles --tags demo" loop=infinite>
@@ -76,6 +87,30 @@ You can also include more cli arguments similar to `npx playwright test`:
 ```bash
 npx playwright-cli-select run --project firefox webkit
 ```
+
+### Using last failed
+
+Passing Playwright's `--last-failed` parameter filters the available selections in each prompt to the last failed tests.
+
+Using this package, you can further drill down on specific tests within the last failed tests:
+
+```sh
+npx playwright-cli-select run --last-failed
+```
+
+<img src="./assets/run-last-failed.gif" alt="playwright-cli-select run --last-failed --project webkit --titles demo" loop=infinite>
+
+### Using only changed
+
+Passing Playwright's `--only-changed` parameter filters available selections to the changed tests detected.
+
+If you want get more specific than running entire test files with changes detected:
+
+```sh
+npx playwright-cli-select run --only-changed
+```
+
+<img src="./assets/run-only-changed.gif" alt="playwright-cli-select run --only-changed --project chromium --titles demo" loop=infinite>
 
 ---
 

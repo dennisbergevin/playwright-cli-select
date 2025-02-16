@@ -1,4 +1,3 @@
-
 # VHS documentation
 #
 # Output:
@@ -57,7 +56,7 @@
 #   Show                            Show the subsequent commands in the output
 
 # Where should we write the GIF?
-Output assets/run-test.gif
+Output assets/run-only-changed.gif
 
 # Set fontsize and width/height
 Set FontSize 20
@@ -66,7 +65,7 @@ Set Height 1000
 
 # Set margin + color
 Set Margin 50
-Set MarginFill "#b5b5b5"
+Set MarginFill "#3458eb"
 Set BorderRadius 10
 
 # Set window bar 
@@ -77,7 +76,7 @@ Set WindowBarSize 60
 Set Theme "nord"
 
 # Type a command in the terminal.
-Type@50ms "npx playwright-cli-select run"
+Type@50ms "npx playwright-cli-select run --only-changed --project chromium --titles"
 
 # Hide the npx loader
 Hide
@@ -87,107 +86,21 @@ Enter
 
 # Await the cli title and first prompt
 Wait+Screen /Playwright-cli-select/
-Wait+Screen /Choose to filter by specs, specific test titles or tags/
+Wait+Screen /Select tests to run/
 
 # Now restart recording
 Show
 Sleep 1s
 
-# Ensure the first prompt choices are visible on screen
-Wait+Screen /Specs/
-Wait+Screen /Test titles/
-Wait+Screen /Tags/
-
-# Select all options
-Ctrl+a
-
-Sleep 2s
-
-# Confirm 
-Enter
-
-
-# Await the spec list
-Wait+Screen /Select specs to run/
-Wait+Screen /demo-app/
-Wait+Screen /firstDir/
-Wait+Screen /secondDir/
-
-Sleep 2s
-
-# Type a search in the prompt
-Type@100ms "firstDir"
-# Await the spec list to show search result
-Wait+Screen /firstDir/
-
-Sleep 2s
-
-# Select spec by pressing tab 
-Tab 
-
-Sleep 2s
-
-# Confirm spec
-Enter
-
-# Await test list
-Wait+Screen /Select tests to run/
-Wait+Screen /New Todo/
-Wait+Screen /Mark all as completed/
-
-Sleep 2s
-
 # Type a search in the prompt 
-Type@200ms "Mark all as completed"
+Type@200ms "persist its data"
 
 # Await the test list to show search result
-Wait+Screen /should allow me to mark items as complete/
+Wait+Screen /should persist its data/
 Sleep 2s
-
-# Move down two
-Down 
-Sleep 1s
-Down 
-Sleep 1s
 
 # Select title 
 Tab 
-
-Sleep 2s
-
-# Remove selected title
-Backspace
-
-Sleep 1s
-
-# Type a new search in the prompt
-Type@200ms "outside test"
-
-# Await the test list to show search result
-Wait+Screen /outside test/
-Sleep 1s
-
-# Select new title
-Tab
-
-Sleep 2s
-
-# Confirm 
-Enter
-
-# Await the tags prompt to show 
-Wait+Screen /Select tags to run/
-Sleep 1s
-
-# Type a new search in the prompt
-Type@200ms "smoke"
-
-# Await the test list to show search result
-Wait+Screen /smoke/
-Sleep 1s
-
-# Select tag 
-Tab
 
 # Confirm
 Sleep 1s
