@@ -60,7 +60,7 @@ Output assets/run-only-changed.gif
 
 # Set fontsize and width/height
 Set FontSize 20
-Set Width 1600
+Set Width 2000
 Set Height 1000
 
 # Set margin + color

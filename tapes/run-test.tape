@@ -61,12 +61,12 @@ Output assets/run-test.gif
 
 # Set fontsize and width/height
 Set FontSize 20
-Set Width 1600
+Set Width 2000
 Set Height 1000
 
 # Set margin + color
 Set Margin 50
-Set MarginFill "#b5b5b5"
+Set MarginFill "#7287a3"
 Set BorderRadius 10
 
 # Set window bar 
