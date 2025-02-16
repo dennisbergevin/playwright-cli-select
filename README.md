@@ -104,7 +104,7 @@ npx playwright-cli-select run --last-failed
 
 Passing Playwright's `--only-changed` parameter filters available selections to the changed tests detected.
 
-If you want get more specific than running entire test files with changes detected:
+To specify a specific subset of changed tests rather than running entire changed test files:
 
 ```sh
 npx playwright-cli-select run --only-changed

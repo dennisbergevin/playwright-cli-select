@@ -178,6 +178,12 @@ async function getTests() {
         console.log("\n");
         console.log(pc.redBright(pc.bold("Error: No tests found")));
         process.exit();
+      } else if (e.stdout.includes("Error: Cannot detect changed files")) {
+        console.log("\n");
+        console.log(
+          pc.redBright(pc.bold("Error: Cannot detect changed files"))
+        );
+        process.exit();
       } else {
         console.log(e);
         process.exit();
@@ -250,7 +256,15 @@ async function getTests() {
   console.log(pc.bold(`🎭 Playwright-cli-select `));
   console.log("\n");
 
+  // check if there are tags, disable tag choice in prompt if none
+  const tags = hasDuplicateArrays(baseTagArr.flat(), []);
+
+  if (tags.length === 0) {
+    process.env.DISABLE_TAGS_CHOICE = true;
+  }
+
   try {
+    // open the first interactive prompt if no --specs, --titles, --tags
     if (
       !process.env.TEST_TITLES &&
       !process.env.TEST_SPECS &&
@@ -274,6 +288,7 @@ async function getTests() {
           {
             name: "Tags",
             value: "Tags",
+            disabled: process.env.DISABLE_TAGS_CHOICE ? true : false,
           },
         ],
         required: true,
@@ -328,6 +343,9 @@ async function getTests() {
         specSelections.forEach((spec) => {
           grepString += `${spec} `;
         });
+      } else {
+        console.log(pc.redBright(pc.bold("No test files/specs detected")));
+        process.exit();
       }
     }
 
@@ -375,6 +393,9 @@ async function getTests() {
         selectedTests.forEach((test) => {
           grepString += `${test} `;
         });
+      } else {
+        console.log(pc.redBright(pc.bold("No tests detected")));
+        process.exit();
       }
     }
 
@@ -429,6 +450,9 @@ async function getTests() {
         selectedTags.forEach((tag) => {
           grepString += `${tag} `;
         });
+      } else {
+        console.log(pc.redBright(pc.bold("No tags detected")));
+        process.exit();
       }
     }
   } catch (e) {
