@@ -37,14 +37,16 @@ Playwright interactive cli prompts to select and run specs, tests or tags.
 
 ## Installation
 
-1. Install the following package:
+Install the following package:
 
-```sh
+```bash
 npm install --save-dev playwright-cli-select
 # within your Playwright repository as dev dependency
+```
 
-# Or
+Or:
 
+```bash
 npm install -g playwright-cli-select
 # global install
 ```
@@ -64,13 +66,19 @@ If you want to skip straight to selecting specs, titles and/or tags:
 ```bash
 npx playwright-cli-select run --specs
 # skips straight to spec selection
+```
 
+```bash
 npx playwright-cli-select run --titles
 # skips to test title selection
+```
 
+```bash
 npx playwright-cli-select run --tags
 # skips to tag selection
+```
 
+```bash
 npx playwright-cli-select run --titles --tags
 # skips to test title selection, followed by tag selection
 # Any combination of `--specs`, `--titles` and/or `--tags` parameters is permitted.
@@ -120,9 +128,11 @@ You can append the `--ui` or `--headed` parameters to open a browser and view se
 
 ```bash
 npx playwright-cli-select run --ui
+```
 
-# Or
+Or:
 
+```bash
 npx playwright-cli-select run --titles --headed
 # Example of choosing only test titles to run headed
 ```
@@ -187,9 +197,11 @@ If you want to use a custom Playwright config, pass it via the `-c` or `--config
 
 ```bash
 npx playwright-cli-select run --config playwright.staging.config.js
+```
 
-# Or
+Or:
 
+```bash
 npx playwright-cli-select run -c playwright.dev.config.js
 ```
 
