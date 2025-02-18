@@ -1,6 +1,6 @@
 {
   "name": "playwright-cli-select",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Playwright interactive cli prompts to select and run specs, tests or tags",
   "main": "index.js",
   "bin": {
