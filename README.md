@@ -6,14 +6,14 @@
 Playwright interactive cli prompts to select and run specs, tests or tags.
 </p>
 
-<img src="./assets/run-test.gif" alt="playwright-cli-select run demo" loop=infinite>
+![playwright-cli-select demo](https://vhs.charm.sh/vhs-3EJN7SzYTWjVZplcfWnYBA.gif)
 
 ## Features
 
 - ❓ New interactive CLI prompts to select and run specs, tests or tags
 - 🎭 A new `playwright test` command to allow user to pass desired arguments
 
-## External Resources
+### External Resources
 
 - [Dev blog: playwright-cli-select](https://dev.to/dennisbergevin/playwright-cli-select-12j)
 
@@ -84,7 +84,7 @@ npx playwright-cli-select run --titles --tags
 # Any combination of `--specs`, `--titles` and/or `--tags` parameters is permitted.
 ```
 
-<img src="./assets/run-flags.gif" alt="playwright-cli-select run --specs --titles --tags demo" loop=infinite>
+![playwright-cli-select --specs --titles --tags demo](https://vhs.charm.sh/vhs-5QU9rlvXDNmkYyKD45lQcy.gif)
 
 ---
 
@@ -106,7 +106,9 @@ Using this package, you can further drill down on specific tests within the last
 npx playwright-cli-select run --last-failed
 ```
 
-<img src="./assets/run-last-failed.gif" alt="playwright-cli-select run --last-failed --project webkit --titles demo" loop=infinite>
+![playwright-cli-select --last-failed demo](https://vhs.charm.sh/vhs-72mIkDY2phmplU5NqA4htF.gif)
+
+---
 
 ### Using only changed
 
@@ -118,7 +120,7 @@ To specify a specific subset of changed tests rather than running entire changed
 npx playwright-cli-select run --only-changed
 ```
 
-<img src="./assets/run-only-changed.gif" alt="playwright-cli-select run --only-changed --project chromium --titles demo" loop=infinite>
+![playwright-cli-select --only-changed demo](https://vhs.charm.sh/vhs-41qtWoKbt82BLBSwFC0Kin.gif)
 
 ---
 
@@ -163,7 +165,7 @@ To open the cli help menu, pass the `--help` flag:
 npx playwright-cli-select run --help
 ```
 
-<img src="./assets/run-help.gif" alt="playwright-cli-select help menu demo" loop=infinite>
+![playwright-cli-select help menu](https://vhs.charm.sh/vhs-2ZIMa0YKLKCBT6YDbezMdX.gif)
 
 ---
 
