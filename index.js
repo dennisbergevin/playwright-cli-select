@@ -152,7 +152,7 @@ async function getTests() {
   // remove the 'run'
   if (process.argv.includes("--reporter")) {
     const index = process.argv.indexOf("--reporter");
-    process.env.TEST_REPORTER_TYPE = `--reporter ${process.argv[index + 1]}`;
+    process.env.TEST_REPORTER_TYPE = ["--reporter", process.argv[index + 1]];
     findAndRemoveArgv(process.argv[index + 1]);
     findAndRemoveArgv("--reporter");
   }
@@ -197,7 +197,7 @@ async function getTests() {
   const tagArr = [];
   let fileArr = [];
   let newarr = [];
-  let grepString = "";
+  let grepString = [];
 
   testJSON.suites.forEach((suite) => {
     const singleTests = suite.specs;
@@ -341,7 +341,7 @@ async function getTests() {
           },
         });
         specSelections.forEach((spec) => {
-          grepString += `${spec} `;
+          grepString.push(spec);
         });
       } else {
         console.log(pc.redBright(pc.bold("No test files/specs detected")));
@@ -391,7 +391,7 @@ async function getTests() {
           },
         });
         selectedTests.forEach((test) => {
-          grepString += `${test} `;
+          grepString.push(test);
         });
       } else {
         console.log(pc.redBright(pc.bold("No tests detected")));
@@ -448,7 +448,7 @@ async function getTests() {
           },
         });
         selectedTags.forEach((tag) => {
-          grepString += `${tag} `;
+          grepString.push(...tag.split(" "));
         });
       } else {
         console.log(pc.redBright(pc.bold("No tags detected")));
@@ -468,11 +468,9 @@ async function getTests() {
   }
 
   // remove the last " " from the grep string
-  const newGrepString = grepString.slice(0, -1);
-  args.unshift(`${newGrepString}`);
-  // add --reporter back to npx playwright test command if necessary
+  args.unshift(...grepString); // add --reporter back to npx playwright test command if necessary
   if (process.env.TEST_REPORTER_TYPE) {
-    args.push(process.env.TEST_REPORTER_TYPE);
+    args.push(...process.env.TEST_REPORTER_TYPE);
   }
   // add --ui back to arguments for the npx playwright test command if necessary
   if (process.env.TEST_IN_UI_MODE) {
@@ -484,8 +482,8 @@ async function getTests() {
   console.log(args);
   console.log();
 
-  spawn("npx playwright test", args, {
-    shell: true,
+  spawn("npx", ["playwright", "test", ...args], {
+    shell: false,
     stdio: "inherit",
   });
 }
