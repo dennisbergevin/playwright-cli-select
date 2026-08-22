@@ -27,7 +27,7 @@ Thanks for being willing to contribute!
 
 ## Committing and Pushing changes
 
-1. Run Jest tests via the `npm test` command
+1. Run Playwright tests via the `npm test` command
 
 2. Run `npx playwright-cli-select run` to inspect behavior before you commit your changes
 
