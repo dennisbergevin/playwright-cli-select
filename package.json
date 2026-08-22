@@ -1,13 +1,13 @@
 {
   "name": "playwright-cli-select",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Playwright interactive cli prompts to select and run specs, tests or tags",
   "main": "index.js",
   "bin": {
     "playwright-cli-select": "index.js"
   },
   "scripts": {
-    "test": "jest ./jest --verbose"
+    "test": "npx playwright test"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -21,10 +21,8 @@
   "author": "Dennis Bergevin",
   "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
-    "@types/node": "^22.13.1",
-    "cli-testing-library": "^2.0.2",
-    "jest": "^30.4.2"
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^22.13.1"
   },
   "dependencies": {
     "fuse.js": "^7.5.0",
